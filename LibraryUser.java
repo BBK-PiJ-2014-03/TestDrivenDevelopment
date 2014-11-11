@@ -37,7 +37,7 @@ public class LibraryUser {
     *
     */
     public int getLibraryID() {
-        return userLibrary.getID();
+        return libraryID;
     }
     
     /**
@@ -50,11 +50,17 @@ public class LibraryUser {
     }
     
     public void register(Library library) {
+        this.setLibraryID(library.setID());
+        library.addUser(this);
         this.userLibrary = library;
-        this.setLibraryID(library.getID());
+        
     }
-    
     public String getLibrary() {
         return userLibrary.getName();
+    }
+    
+    public String toString() {
+        String newString = "Name: " + name + "\nLibraryID: " + libraryID;
+        return newString;
     }
 }

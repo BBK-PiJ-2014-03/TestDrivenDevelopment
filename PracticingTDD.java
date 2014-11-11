@@ -1,3 +1,5 @@
+import java.util.List;
+import java.util.ArrayList;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -59,13 +61,19 @@ public class PracticingTDD {
     @Test
     public void testLibraryUserGetters() {
         assertEquals(newUser.getName(), "Jim Smith");
-        assertEquals(newUser.getLibraryID(), 13);
+        assertEquals(newUser.getLibraryID(), 0);
     }
     
     @After
     public void cleanUser() {
         newUser = null;
     }
+    
+    /*
+    *
+    *   Test building a library Library
+    *
+    */
     
     @Before
     public void buildLibrary() {
@@ -79,7 +87,6 @@ public class PracticingTDD {
     @Test
     public void testLibraryGetters() {
         assertEquals(newLibrary.getName(), "BBK-Library");
-        assertEquals(newLibrary.getID(), 13);
     }
     
     @Test
@@ -89,6 +96,55 @@ public class PracticingTDD {
     
     @After
     public void cleanLibrary() {
+        newLibrary = null;
+    }
+    
+    @Before
+    public void buildMultipleUsers() {
+        newLibrary = new Library("MultiUserLibrary");
+        
+        LibraryUser first = new LibraryUser("Jim");
+        LibraryUser second = new LibraryUser("Roger");
+        LibraryUser third = new LibraryUser("Sam");
+        LibraryUser fourth = new LibraryUser("Charles");
+        LibraryUser fifth = new LibraryUser("Owen");
+        
+        first.register(newLibrary);
+        second.register(newLibrary);
+        third.register(newLibrary);
+        fourth.register(newLibrary);
+        fifth.register(newLibrary);
+    }
+    
+    @Test
+    public void testAddFirstMember() {
+        LibraryUser first = new LibraryUser("Pete");
+        newLibrary.addUser(first);
+        assertNotNull(newLibrary.getElement(0));
+    }
+    
+    @Test
+    public void testAddMembers() {
+        
+        int index = 0;
+        for (LibraryUser user : newLibrary.getUserArray()) {
+            assertNotNull(newLibrary.getElement(index));
+            index++;
+        }
+    }
+    
+    @Test
+    public void testGetID() {
+        int index = 0;
+        for (LibraryUser user : newLibrary.getUserArray()) {
+            System.out.println(newLibrary.getID(user.getName()));
+            assertEquals(newLibrary.getID(user.getName()), index);
+            index++;
+        }
+    }
+    
+    @After
+    public void cleanMultipleUsers() {
         newLibrary = null;
     }
 }
